@@ -9,6 +9,7 @@ from init import * #Posizione del file init.ini
 from funzioni import *
 
 #ELENCO DELLE CARTELLE POD DISPONIBILI
+#ELENCO DELLE CARTELLE POD DISPONIBILI
 lista_pod = []   
 for name in os.listdir(origin_path):    
     if name[0:6] =='IT001E':
@@ -105,6 +106,8 @@ df_edis_15m = pd.DataFrame(columns = columns)
 for mese in mesi_edis:    
     if os.path.exists(cwd+'/ExportData_' + mese + '.csv') == True:     
         df_singolo_mese = pd.read_csv('ExportData_' + mese + '.csv', sep=';', index_col=False, decimal=",") #dati del file mensile di riferimento
+        for i in range (1, df_singolo_mese.shape[1]):
+            df_singolo_mese[columns[i]] = df_singolo_mese[columns[i]].astype(float)     
         df_edis_15m = pd.concat([df_edis_15m,df_singolo_mese])
     else: 
         #nel caso in cui non sia stato trovato alcun file per il mese selezionato, lo spazio lasciato vuoto nel dataframe viene riempito di valori "NaN"
@@ -123,8 +126,7 @@ for mese in mesi_edis:
         print('Dati assenti per il seguente mese: ' + mesi_edis[mesi_edis.index(mese)])
 df_edis_15m.reset_index(inplace=True) 
 df_edis_15m.drop(columns='index', inplace=True)
-
-os.chdir(origin_path)        
+os.chdir(origin_path)
 
 #CREAZIONE DI ALTRI DATAFRAME - DETTAGLIO ORARIO (UTILE PER GME) E DETTAGLIO MENSILE (UTILE PER DICHIARAZIONI E VERIFICHE)
 df_edis_1h = raggruppamento_orario_dataframe(df_edis_15m)
@@ -137,4 +139,13 @@ esporta_csv(df_edis_15m, 'riepilogo_15min_', export_path, tipo_energia, tipo_reg
 esporta_csv(df_edis_1h, 'riepilogo_orario_', export_path, tipo_energia, tipo_regime)
 esporta_csv(df_edis_mese, 'riepilogo_mensile_', export_path, tipo_energia, tipo_regime)
 
+while True:
+    ans = input('Esportare i dati verso database mySQL locale? (y/n): ')
+    if ans.lower() == 'y':
+        sql_export(df_edis_15m, selezione_pod, tipo_energia, tipo_regime)
+        break
+    elif ans.lower() == 'n':
+        break
+    else:
+        print('Il carattere inserito è errato')
 print('Fine Operazioni')

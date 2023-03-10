@@ -68,7 +68,7 @@ def verifica_integrita_df(df_iniziale, df_finale):
     toll = 1e-06
     check_iniziale = df_iniziale.iloc[:,1:df_iniziale.shape[1]].astype(float).sum().sum()
     check_finale = df_finale.iloc[:,1:df_finale.shape[1]].astype(float).sum().sum()
-    print('Energia Totale Iniziale [kWh]: ', check_iniziale, '\n','Energia Totale Finale [kWh]: ', check_finale)
+    print('Energia Totale Iniziale: ', check_iniziale, '\n','Energia Totale Finale: ', check_finale)
     if abs(check_iniziale - check_finale) > toll:
         sys.exit("L'energia iniziale non coincide con quella finale")
     print('La verifica ha avuto esito positivo')
@@ -81,9 +81,10 @@ def creazione_riepilogo_mensile(df):
     for i in range(0, df_mensile.shape[0]):
         str_mese = df_mensile.iloc[i,0]
         lista_mesi.append(str_mese[3:5])          
-    df_mensile['Totale giornaliero [kWh]'] = df_mensile.iloc[:,1:df_mensile.shape[1]].astype(float).sum(axis=1)
+    df_mensile['Totale giornaliero'] = df_mensile.iloc[:,1:df_mensile.shape[1]].astype(float).sum(axis=1)
+
     df_mensile['mese'] = lista_mesi
-    df_mensile = df_mensile.groupby(['mese'])['Totale giornaliero [kWh]'].sum().to_frame()
+    df_mensile = df_mensile.groupby(['mese'])['Totale giornaliero'].sum().to_frame()
     df_mensile.reset_index(inplace=True)
     
     verifica_integrita_df(df, df_mensile)
