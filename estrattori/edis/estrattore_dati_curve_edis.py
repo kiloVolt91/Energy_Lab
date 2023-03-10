@@ -7,6 +7,7 @@
 
 from init import * #Posizione del file init.ini 
 from funzioni import *
+from sql_export import *
 
 #ELENCO DELLE CARTELLE POD DISPONIBILI
 #ELENCO DELLE CARTELLE POD DISPONIBILI
