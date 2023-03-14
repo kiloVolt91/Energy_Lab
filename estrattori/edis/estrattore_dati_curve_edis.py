@@ -143,7 +143,9 @@ esporta_csv(df_edis_mese, 'riepilogo_mensile_', export_path, tipo_energia, tipo_
 while True:
     ans = input('Esportare i dati verso database mySQL locale? (y/n): ')
     if ans.lower() == 'y':
-        sql_export(df_edis_15m, selezione_pod, tipo_energia, tipo_regime)
+        sql_export_df(df_edis_15m, selezione_pod, tipo_energia, tipo_regime, sql_tabella = 'edis_15m')
+        sql_export_df(df_edis_1h, selezione_pod, tipo_energia, tipo_regime, sql_tabella = 'edis_1h')
+        sql_export_mese(df_edis_mese, selezione_pod, tipo_energia, tipo_regime, selezione_anno)
         break
     elif ans.lower() == 'n':
         break
