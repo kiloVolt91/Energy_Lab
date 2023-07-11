@@ -2,3 +2,4 @@
 *.ipynb
 *.pyc
 init_path.py
+estrattori/gme/init.py
