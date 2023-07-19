@@ -25,6 +25,9 @@ ftpc = ftplib.FTP()
 ftpc.connect(ftp_host, ftp_port)
 ftpc.login(nome_utente, password)
 
+
+
+
 ftp_path = ftpc.pwd()
 ftpc.cwd('MercatiElettrici')
 ftpc.cwd('MGP_Prezzi')
