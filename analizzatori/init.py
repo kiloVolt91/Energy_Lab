@@ -1,0 +1,1 @@
+init_path = '/home/episciotta/Documenti/SVILUPPO/repo_sviluppo_ctz/dati_configurazione/configurazione.ini'
